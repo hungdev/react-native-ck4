@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
 import styles from './LoginStyles'
 
-export default function Login() {
+export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const onChangeMail = (val) => setEmail(val)
   const onChangePass = (val) => setPassword(val)
+
+  const onSignIn = () => navigation.navigate('ProductList')
 
   return (
     <View style={{ padding: 20 }}>
@@ -31,6 +33,7 @@ export default function Login() {
       </TouchableOpacity>
 
       <TouchableOpacity
+        onPress={onSignIn}
         style={{
           marginTop: 30, backgroundColor: '#fcde19',
           padding: 15,

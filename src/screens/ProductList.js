@@ -53,11 +53,13 @@ const products = [
   },
 ]
 
-export default function ProductList() {
+export default function ProductList({ navigation }) {
   const ratingCompleted = () => { }
 
+  const moveToDetail = (item) => () => navigation.navigate('ProductDetail', { data: item })
+
   const renderItem = ({ item }) => (
-    <View style={{ width: width / 2 - 10 }}>
+    <View style={{ width: width / 2 - 10 }} >
       <View>
         <TouchableOpacity style={{
           position: 'absolute', right: 10, top: 10, zIndex: 1,
@@ -70,7 +72,7 @@ export default function ProductList() {
           source={{ uri: item?.photo }}
         />
       </View>
-      <View style={{ padding: 10 }}>
+      <TouchableOpacity style={{ padding: 10 }} onPress={moveToDetail(item)}>
         <View style={{
           height: 25, width: 25,
           backgroundColor: 'white', borderRadius: 25 / 2,
@@ -90,7 +92,7 @@ export default function ProductList() {
           imageSize={20}
           style={{ paddingVertical: 10, justifyContent: 'flex-start', alignItems: 'flex-start', }}
         />
-      </View>
+      </TouchableOpacity>
     </View>
   );
 
@@ -113,7 +115,7 @@ export default function ProductList() {
         keyExtractor={item => item.id}
         numColumns={2}
         horizontal={false}
-        style={{ marginBottom: 100 }}
+        // style={{ marginBottom: 100 }}
         columnWrapperStyle={{ flex: 1, justifyContent: "space-around" }}
       />
     </View>
