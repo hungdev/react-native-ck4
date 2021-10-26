@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, FlatList, Image, Dimensions, TouchableOpacity } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import { getProduct } from '../service/Api'
 
 const { height, width } = Dimensions.get('window');
 
@@ -54,6 +55,23 @@ const products = [
 ]
 
 export default function ProductList({ navigation }) {
+  const [productList, setProductList] = useState([])
+
+  useEffect(() => {
+    const getProductList = async () => {
+      try {
+        const response = await getProduct()
+        setProductList(response?.data?.data)
+        console.log('data', response);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    getProductList()
+
+  }, [])
+
   const ratingCompleted = () => { }
 
   const moveToDetail = (item) => () => navigation.navigate('ProductDetail', { data: item })
@@ -110,7 +128,7 @@ export default function ProductList({ navigation }) {
       </View>
 
       <FlatList
-        data={products}
+        data={productList}
         renderItem={renderItem}
         keyExtractor={item => item.id}
         numColumns={2}
