@@ -62,7 +62,7 @@ export default function ProductList({ navigation }) {
       try {
         const response = await getProduct()
         setProductList(response?.data?.data)
-        console.log('data', response);
+        console.tron.log('data', response);
       } catch (error) {
         console.error(error);
       }
