@@ -2,12 +2,13 @@ import React from 'react'
 import { View, Text } from 'react-native'
 import AppNavigation from './src/appNavigation/routes'
 
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import AllReducer from "./src/reducers";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
+import thunk from 'redux-thunk'
 
 const persistConfig = {
   key: 'root',
@@ -16,7 +17,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, AllReducer)
 
-const store = createStore(persistedReducer);
+const store = createStore(persistedReducer, applyMiddleware(thunk));
 
 let persistor = persistStore(store)
 

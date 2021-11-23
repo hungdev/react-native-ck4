@@ -2,27 +2,36 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, FlatList, Image, Dimensions, TouchableOpacity } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import { useSelector, useDispatch } from "react-redux";
 import { getProduct } from '../service/Api'
 import { getImage } from '../utils'
+import { getProductList } from '../reducers/cartReducer'
 
 const { height, width } = Dimensions.get('window');
 
 export default function ProductList({ navigation }) {
+  const dispatch = useDispatch();
+  const products = useSelector((store) => store.cartReducer.products);
   const [productList, setProductList] = useState([])
 
+  // useEffect(() => {
+  //   const getProductList = async () => {
+  //     try {
+  //       const response = await getProduct()
+  //       setProductList(response?.data?.data)
+  //       console.tron.log('data', response);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+
+  //   getProductList()
+
+  // }, [])
+
+  // cach 2 dung thunk
   useEffect(() => {
-    const getProductList = async () => {
-      try {
-        const response = await getProduct()
-        setProductList(response?.data?.data)
-        console.tron.log('data', response);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    getProductList()
-
+    dispatch(getProductList())
   }, [])
 
   const ratingCompleted = () => { }
@@ -83,7 +92,7 @@ export default function ProductList({ navigation }) {
       </View>
 
       <FlatList
-        data={productList}
+        data={products}
         renderItem={renderItem}
         keyExtractor={item => item._id?.toString()}
         numColumns={2}
