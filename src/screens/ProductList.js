@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getProduct } from '../service/Api'
 import { getImage } from '../utils'
 import { getProductList } from '../reducers/cartReducer'
+import Loading from '../components/Loading'
 
 const { height, width } = Dimensions.get('window');
 
@@ -13,26 +14,29 @@ export default function ProductList({ navigation }) {
   const dispatch = useDispatch();
   const products = useSelector((store) => store.cartReducer.products);
   const [productList, setProductList] = useState([])
+  const [isLoading, setIsloading] = useState(false)
 
-  // useEffect(() => {
-  //   const getProductList = async () => {
-  //     try {
-  //       const response = await getProduct()
-  //       setProductList(response?.data?.data)
-  //       console.tron.log('data', response);
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   }
+  useEffect(() => {
+    const getProductList = async () => {
+      try {
+        setIsloading(true)
+        const response = await getProduct()
+        setProductList(response?.data?.data)
+        setIsloading(false)
+        console.tron.log('data', response);
+      } catch (error) {
+        console.error(error);
+      }
+    }
 
-  //   getProductList()
+    getProductList()
 
-  // }, [])
+  }, [])
 
   // cach 2 dung thunk
-  useEffect(() => {
-    dispatch(getProductList())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(getProductList())
+  // }, [])
 
   const ratingCompleted = () => { }
 
@@ -80,6 +84,7 @@ export default function ProductList({ navigation }) {
 
   return (
     <View>
+      {isLoading ? <Loading /> : null}
       <View style={{ flexDirection: 'row', paddingVertical: 10 }}>
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', borderRightWidth: 1, borderColor: 'grey' }}>
           <Text>Sort By:</Text>
@@ -92,7 +97,7 @@ export default function ProductList({ navigation }) {
       </View>
 
       <FlatList
-        data={products}
+        data={productList}
         renderItem={renderItem}
         keyExtractor={item => item._id?.toString()}
         numColumns={2}
