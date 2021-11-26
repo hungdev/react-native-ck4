@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const instance = axios.create({
-  baseURL: 'https://forever21.hungvu.net/',
+  baseURL: 'https://api.thecoffeehouse.com/api/v5/',
   timeout: 1000,
 });
 // https://api.thecoffeehouse.com/api/v5/stores/all-pickup
-export const getProduct = () => instance.get('get-products');
+export const getProduct = () => instance.post('menu');

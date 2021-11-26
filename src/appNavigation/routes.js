@@ -73,9 +73,9 @@ export default function App() {
           headerShown: false,
         })}
       >
+        <Tab.Screen name="Wishlist" component={Wishlist} />
         <Tab.Screen name="Discover" component={HomeStackScreen} />
         <Tab.Screen name="Shop" component={Shop} />
-        <Tab.Screen name="Wishlist" component={Wishlist} />
         <Tab.Screen name="Bag" component={Bag} />
         <Tab.Screen name="Account" component={Account} />
       </Tab.Navigator>
